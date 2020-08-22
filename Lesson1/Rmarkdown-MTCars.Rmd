@@ -1,0 +1,93 @@
+---
+title: "Introduction to Datset MTCars"
+author: "Mridul, Niyati, Adi, Abhi"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    toc_float: true
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(corrplot)
+library(DT)
+library(tidyverse)
+library(ggplot2)
+library(expss)
+library(plotly)
+library(dplyr)
+```
+
+# Intro to MTCars
+Hello Everyone today we are going to present you the dataset of  MTCars.
+The Dataset MTCars has 32 observations and 11 variables. The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).
+
+## Viewing the Dataset
+Here you can see the dataset.
+```{r, echo = TRUE}
+datatable(mtcars)
+```
+## Dimension of MTCars
+The dim() function shows the number observations and variables of a dataset. In this case the MTCars dataset has 32 observations and 11 variables
+```{r, echo = TRUE}
+dim(mtcars)
+```
+## Mean of Variable Miles/(US) gallon
+The mean() function adds all the numbers from a variable or a set of numbers and divides it by the number of numbers. The mean of the variable mpg is 20.09062.
+```{r, echo = TRUE}
+mean(mtcars$mpg)
+```
+
+## Median of Variable Weight
+The median() function shows the middle number of a variable or a set of numbers when sorted from smallest to largest. If there are even number of values the median is the number halfway between the 2 numbers in the middle.
+```{r, echo = TRUE}
+median(mtcars$wt)
+```
+# Plots
+We are making Different Plots randomly and describing it.
+
+## Corrplot
+In this corrplot u can see that each of these variables have different correlations. For example the variables mpg and wt are negatively correlated i.e. if the weight is more then the miles per gallon will be less and vice versa.
+```{r}
+corrplot(cor(mtcars), type = "upper")
+```
+
+## Pie Chart
+This is a Pie Chart. Here we can see the percentage of cars that have 1, 2, 3, 4, 6 and 8 Carburetors. 7 cars have 1 Carburetor which is 21.9% of all cars. 10 cars have 2 Carburetor which is 31.3% of all cars. 3 cars have 3 Carburetor which is 9.38% of all cars. 10 cars have 4 Carburetor which is 31.3% of all cars. 1 cars have 6 Carburetor which is 3.13% of all cars. 1 cars have 8 Carburetor which is 3.13% of all cars.
+```{r, warning = FALSE}
+plot_ly(mtcars, labels = ~carb, type = 'pie') %>% 
+  layout(title = 'Pie Chart for MTCars Number of Carburetors')
+```
+
+## Scatterplot
+This is a Scatterplot. This Scatterplot has 4 grids: 1. Automatic Cars with a Straight Engine, 2. Automatic Cars with a V-Shaped Engine, 3. Manual Cars with a Straight Engine and 4. Manual Cars with a V-Shaped Engine. The dots in each grid shows how far a car can go with 1 gallon of fuel and their wait. The color is determined by how fast the car can go 1/4 a mile in seconds. In this Scatterplot the fastest car can drive 1/4 a mile in 14.50 seconds and the slowest can drive 1/4 a mile in 22.90 seconds. The car that goes farthest with one gallon of fuel can go 33.9 miles and the least is 10.4.
+```{r}
+  Scatterplot_MTCars <- use_labels(mtcars, {ggplot(mtcars) +
+      geom_point(aes(y = mpg, x = wt, color = qsec)) +
+        facet_grid(factor(am, labels = c("automatic", "manual")) ~ factor(vs, labels = c("V-Engine", "Straight Engine")))
+    })
+  ggplotly(Scatterplot_MTCars)
+```
+
+## Boxplot
+This is a boxplot. Here we can see the number of cylinders vs Miles Per Gallon. Cars with 4 cylinders go from in a minimum of 21.4 miles to a maximum of 33.9 miles per gallon of fuel with an average of 26 miles per gallon. Cars with 6 cylinders go from in a minimum of 17.8 miles to a maximum of 21.4 miles per gallon of fuel with an average of 19.7 miles per gallon. Cars with 8 cylinders go from in a minimum of 10.4 miles to a maximum of 19.2 miles per gallon of fuel with an average of 15.2 miles per gallon. So cars with 4 cylinders can go farthest with one gallon of fuel. 
+```{r}
+plot_ly(mtcars, y = ~mpg, x = ~cyl, type = "box", color = I("#008000")) %>%
+   layout(title = "Miles Per Gallon vs Number of Cylinders",
+         xaxis = list(title = "Number of Cylinders",
+                      zeroline = FALSE),
+         yaxis = list(title = "Miles Per Gallon",
+                      zeroline = FALSE))
+```
+
+# Ending
+Here you can see the Dataset again.
+```{r}
+datatable(mtcars)
+```
+This was are presentation to the dataset MTCars.
+We hope you enjoyed.
+Thank you.
